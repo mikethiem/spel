@@ -35,7 +35,7 @@ def game():
 @app.route('/check', methods=['POST'])
 def check_answer():
     """Checks the user's guess and shows the result."""
-     """Checks the user's guess and shows the result."""
+    
     print("--- LOADING THE RESULT PAGE ---") # ADD THIS LINE
     user_guess = request.form.get('guess', '').strip().lower()
     correct_word = session.get('correct_word', '')
@@ -51,5 +51,6 @@ if __name__ == '__main__':
     # host='0.0.0.0' allows the server to be accessible.
     # debug=True is helpful for development.
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
