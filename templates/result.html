@@ -3,12 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Resultaat</title>
-    <meta http-equiv="refresh" content="3;url=/">
+    <meta http-equiv="refresh" content="4;url=/">
     <style>
         body { font-family: sans-serif; text-align: center; font-size: 1.5em; padding-top: 50px; }
         .correct { color: green; }
         .incorrect { color: red; }
-        a { font-size: 0.8em; }
+        .play-again {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 1em;
+            color: white;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -16,10 +25,9 @@
         <h1 class="correct">Reg! Mooi so! 🥳</h1>
     {% else %}
         <h1 class="incorrect">Verkeerd.</h1>
-        <p>Jy het '{{ user_guess }}' geraai.</p>
         <p>Die regte antwoord is '<b>{{ correct_word }}</b>'.</p>
     {% endif %}
-    <br>
-    <a href="/">Volgende woord...</a>
+    
+    <a href="/" class="play-again">Speel Weer</a>
 </body>
 </html>
