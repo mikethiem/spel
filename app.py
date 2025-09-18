@@ -1,6 +1,6 @@
 import os
 import random
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect, url_for
 
 app = Flask(__name__)
 # A secret key is needed to manage user sessions securely
@@ -22,35 +22,46 @@ words_list = load_words()
 
 @app.route('/')
 def game():
-    print("--- LOADING THE MAIN GAME PAGE ---") # ADD THIS LINE
     """Displays the main game page with a new random image."""
+    # Initialize score if it doesn't exist in the session
+    if 'score' not in session:
+        session['score'] = 0
+    
     if not words_list:
         return "Error: No images found in 'static/images'. Please add some.", 500
     
     current_item = random.choice(words_list)
     session['correct_word'] = current_item['word']
     
-    return render_template('index.html', image_path=current_item['path'])
+    # Pass the current score to the template
+    return render_template('index.html', 
+                           image_path=current_item['path'], 
+                           score=session.get('score', 0))
 
 @app.route('/check', methods=['POST'])
 def check_answer():
     """Checks the user's guess and shows the result."""
-    
-    print("--- LOADING THE RESULT PAGE ---") # ADD THIS LINE
     user_guess = request.form.get('guess', '').strip().lower()
     correct_word = session.get('correct_word', '')
     
     is_correct = (user_guess == correct_word.lower())
     
+    # If correct, add 10 points to the score
+    if is_correct:
+        session['score'] = session.get('score', 0) + 10
+    
+    # Pass the updated score to the result template
     return render_template('result.html', 
                            is_correct=is_correct, 
                            correct_word=correct_word, 
-                           user_guess=user_guess)
+                           user_guess=user_guess,
+                           score=session.get('score', 0))
+
+@app.route('/reset')
+def reset():
+    """Resets the score and starts a new game."""
+    session['score'] = 0
+    return redirect(url_for('game'))
 
 if __name__ == '__main__':
-    # host='0.0.0.0' allows the server to be accessible.
-    # debug=True is helpful for development.
     app.run(host='0.0.0.0', port=5000, debug=True)
-
-
-
