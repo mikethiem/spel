@@ -22,7 +22,7 @@ words_list = load_words()
 
 @app.route('/')
 def game():
-     print("--- LOADING THE MAIN GAME PAGE ---") # ADD THIS LINE
+    print("--- LOADING THE MAIN GAME PAGE ---") # ADD THIS LINE
     """Displays the main game page with a new random image."""
     if not words_list:
         return "Error: No images found in 'static/images'. Please add some.", 500
@@ -51,4 +51,5 @@ if __name__ == '__main__':
     # host='0.0.0.0' allows the server to be accessible.
     # debug=True is helpful for development.
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
