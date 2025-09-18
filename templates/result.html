@@ -5,7 +5,9 @@
     <title>Resultaat</title>
     <meta http-equiv="refresh" content="4;url=/">
     <style>
-        body { font-family: sans-serif; text-align: center; font-size: 1.5em; padding-top: 50px; }
+        body { font-family: sans-serif; text-align: center; margin: 0; padding: 20px; }
+        .score { position: absolute; top: 20px; left: 20px; font-size: 1.5em; font-weight: bold; color: #333; }
+        .result-content { padding-top: 50px; font-size: 1.5em; }
         .correct { color: green; }
         .incorrect { color: red; }
         .play-again {
@@ -21,13 +23,18 @@
     </style>
 </head>
 <body>
-    {% if is_correct %}
-        <h1 class="correct">Reg! Mooi so! 🥳</h1>
-    {% else %}
-        <h1 class="incorrect">Verkeerd.</h1>
-        <p>Die regte antwoord is '<b>{{ correct_word }}</b>'.</p>
-    {% endif %}
-    
-    <a href="/" class="play-again">Speel Weer</a>
+    <div class="score">Punte: {{ score }}</div>
+
+    <div class="result-content">
+        {% if is_correct %}
+            <h1 class="correct">Reg! Mooi so! 🥳</h1>
+            <p>+10 Punte!</p>
+        {% else %}
+            <h1 class="incorrect">Verkeerd.</h1>
+            <p>Die regte antwoord is '<b>{{ correct_word }}</b>'.</p>
+        {% endif %}
+        
+        <a href="/" class="play-again">Speel Weer</a>
+    </div>
 </body>
 </html>
