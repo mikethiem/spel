@@ -6,7 +6,9 @@ app = Flask(__name__)
 # A secret key is needed to manage user sessions securely
 app.secret_key = 'your_very_secret_key_here' 
 
-IMAGE_FOLDER = os.path.join('static', 'images')
+# Use an absolute path relative to this module so images are found in container or different CWDs
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+IMAGE_FOLDER = os.path.join(BASE_DIR, 'static', 'images')
 
 def load_words():
     """Loads words and image paths from the static/images folder."""
@@ -15,7 +17,9 @@ def load_words():
         for filename in os.listdir(IMAGE_FOLDER):
             if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
                 word = os.path.splitext(filename)[0]
-                words.append({'word': word, 'path': os.path.join('images', filename)})
+                # Serve via Flask's static route: url_for('static', filename=img_path)
+                img_path = f'images/{filename}'.replace('\\', '/')
+                words.append({'word': word, 'path': img_path})
     return words
 
 words_list = load_words()
