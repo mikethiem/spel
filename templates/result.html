@@ -36,5 +36,19 @@
         
         <a href="/" class="play-again">Speel Weer</a>
     </div>
+    <h3>Response History</h3>
+<ul>
+  {% for item in history %}
+    <li>
+      <strong>Your guess:</strong> {{ item.user_guess }} |
+      <strong>Correct:</strong> {{ item.correct_word }} |
+      {% if item.is_correct %}
+        <span style="color:green;">Correct</span>
+      {% else %}
+        <span style="color:red;">Incorrect</span>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
 </body>
 </html>

@@ -49,18 +49,30 @@ def check_answer():
     # If correct, add 10 points to the score
     if is_correct:
         session['score'] = session.get('score', 0) + 10
+    else:
+        session['score'] = max(session.get('score', 0) - 10, 0)
+    # Store response history in session
+    history = session.get('history', [])
+    history.append({
+        'user_guess': user_guess,
+        'correct_word': correct_word,
+        'is_correct': is_correct
+    })
+    session['history'] = history
     
     # Pass the updated score to the result template
     return render_template('result.html', 
                            is_correct=is_correct, 
                            correct_word=correct_word, 
                            user_guess=user_guess,
-                           score=session.get('score', 0))
+                           score=session.get('score', 0),
+                           history=history)
 
 @app.route('/reset')
 def reset():
     """Resets the score and starts a new game."""
     session['score'] = 0
+    session['history'] = []
     return redirect(url_for('game'))
 
 if __name__ == '__main__':
